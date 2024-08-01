@@ -1,25 +1,12 @@
-import pandas as pd
-import matplotlib.pyplot as plt
+# 计算每个 condo_counts 的总行数
+total_counts = df_pc_match_stat.groupby('condo_counts').size()
 
-# 假设 avg_median_values 已经包含你需要的数据
+# 计算每个 condo_counts 中 gross_rental_income 为 0 的行数
+zero_gross_rental_income_counts = df_pc_match_stat[df_pc_match_stat['gross_rental_income'] == 0].groupby('condo_counts').size()
 
-# 设置图形的大小
-plt.figure(figsize=(14, 8))
+# 计算比例
+proportion_zero_gross_rental_income = (zero_gross_rental_income_counts / total_counts).reset_index()
+proportion_zero_gross_rental_income.columns = ['condo_counts', 'proportion_zero_gross_rental_income']
 
-# 创建一个子图，用于 avg_gross_rental_income
-plt.subplot(2, 1, 1)
-plt.bar(avg_median_values['condo_counts'], avg_median_values['avg_Gross Rental Income'], color='b', alpha=0.7)
-plt.xlabel('Condo Counts')
-plt.ylabel('Average Gross Rental Income')
-plt.title('Condo Counts vs Average Gross Rental Income')
-
-# 创建另一个子图，用于 avg_net_rental_income
-plt.subplot(2, 1, 2)
-plt.bar(avg_median_values['condo_counts'], avg_median_values['avg_Net Rental Income'], color='g', alpha=0.7)
-plt.xlabel('Condo Counts')
-plt.ylabel('Average Net Rental Income')
-plt.title('Condo Counts vs Average Net Rental Income')
-
-# 调整布局以避免重叠
-plt.tight_layout()
-plt.show()
+# 显示结果
+print(proportion_zero_gross_rental_income)
