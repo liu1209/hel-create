@@ -1,0 +1,34 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 假设 df_pc_match_stat 已经包含你需要的列
+
+# 获取唯一的 condo_counts
+unique_condo_counts = df_pc_match_stat['condo_counts'].unique()
+
+# 设置图形的大小
+plt.figure(figsize=(14, len(unique_condo_counts) * 6))
+
+# 为每个 condo_counts 绘制直方图
+for i, count in enumerate(unique_condo_counts):
+    # 选择特定的 condo_counts 数据
+    data = df_pc_match_stat[df_pc_match_stat['condo_counts'] == count]
+    
+    # 绘制 gross_rental_income 的直方图
+    plt.subplot(len(unique_condo_counts), 2, 2*i + 1)
+    sns.histplot(data['gross_rental_income'], bins=20, kde=False)
+    plt.title(f'Gross Rental Income Distribution for Condo Count {count}')
+    plt.xlabel('Gross Rental Income')
+    plt.ylabel('Frequency')
+    
+    # 绘制 net_rental_income 的直方图
+    plt.subplot(len(unique_condo_counts), 2, 2*i + 2)
+    sns.histplot(data['net_rental_income'], bins=20, kde=False)
+    plt.title(f'Net Rental Income Distribution for Condo Count {count}')
+    plt.xlabel('Net Rental Income')
+    plt.ylabel('Frequency')
+
+# 调整布局以避免重叠
+plt.tight_layout()
+plt.show()
