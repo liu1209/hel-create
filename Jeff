@@ -1,51 +1,24 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
-# 假设 df_pc_match_stat 已经包含你需要的列
-
-# 获取唯一的 condo_counts
-unique_condo_counts = df_pc_match_stat['condo_counts'].unique()
+# 假设 avg_median_values 已经包含你需要的数据
 
 # 设置图形的大小
-plt.figure(figsize=(14, len(unique_condo_counts) * 6))
+plt.figure(figsize=(14, 8))
 
-# 为每个 condo_counts 绘制直方图
-for i, count in enumerate(unique_condo_counts):
-    # 选择特定的 condo_counts 数据
-    data = df_pc_match_stat[df_pc_match_stat['condo_counts'] == count]
-    
-    # 计算平均值和中位数
-    mean_gross = data['gross_rental_income'].mean()
-    median_gross = data['gross_rental_income'].median()
-    mean_net = data['net_rental_income'].mean()
-    median_net = data['net_rental_income'].median()
-    
-    # 绘制 gross_rental_income 的直方图
-    plt.subplot(len(unique_condo_counts), 2, 2*i + 1)
-    sns.histplot(data['gross_rental_income'], bins=20, kde=False)
-    plt.title(f'Gross Rental Income Distribution for Condo Count {count}')
-    plt.xlabel('Gross Rental Income')
-    plt.ylabel('Frequency')
-    
-    # 标注平均值和中位数
-    plt.axvline(mean_gross, color='r', linestyle='--', linewidth=2)
-    plt.axvline(median_gross, color='g', linestyle='-', linewidth=2)
-    plt.text(mean_gross, plt.ylim()[1] * 0.9, f'Mean: {mean_gross:.2f}', color='r')
-    plt.text(median_gross, plt.ylim()[1] * 0.8, f'Median: {median_gross:.2f}', color='g')
-    
-    # 绘制 net_rental_income 的直方图
-    plt.subplot(len(unique_condo_counts), 2, 2*i + 2)
-    sns.histplot(data['net_rental_income'], bins=20, kde=False)
-    plt.title(f'Net Rental Income Distribution for Condo Count {count}')
-    plt.xlabel('Net Rental Income')
-    plt.ylabel('Frequency')
-    
-    # 标注平均值和中位数
-    plt.axvline(mean_net, color='r', linestyle='--', linewidth=2)
-    plt.axvline(median_net, color='g', linestyle='-', linewidth=2)
-    plt.text(mean_net, plt.ylim()[1] * 0.9, f'Mean: {mean_net:.2f}', color='r')
-    plt.text(median_net, plt.ylim()[1] * 0.8, f'Median: {median_net:.2f}', color='g')
+# 创建一个子图，用于 avg_gross_rental_income
+plt.subplot(2, 1, 1)
+plt.bar(avg_median_values['condo_counts'], avg_median_values['avg_Gross Rental Income'], color='b', alpha=0.7)
+plt.xlabel('Condo Counts')
+plt.ylabel('Average Gross Rental Income')
+plt.title('Condo Counts vs Average Gross Rental Income')
+
+# 创建另一个子图，用于 avg_net_rental_income
+plt.subplot(2, 1, 2)
+plt.bar(avg_median_values['condo_counts'], avg_median_values['avg_Net Rental Income'], color='g', alpha=0.7)
+plt.xlabel('Condo Counts')
+plt.ylabel('Average Net Rental Income')
+plt.title('Condo Counts vs Average Net Rental Income')
 
 # 调整布局以避免重叠
 plt.tight_layout()
