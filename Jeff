@@ -1,1 +1,67 @@
+WITH conveyance_data AS (
+    SELECT 
+        id,
+        conveyance_date,
+        conveyance_price,
+        ROW_NUMBER() OVER (PARTITION BY id ORDER BY conveyance_date ASC) AS row_number
+    FROM bcaa.assessment
+)
+SELECT 
+    a.id,
+    a.actual_use_desc,
+    a.jurisdiction_code_desc,
+    a.manual_class_desc,
+    a.neighbourhood_desc,
+    a.ownership_year,
+    a.roll_number,
+    a.roll_year,
+    a.vacant_flag,
+    MAX(CASE WHEN cd.row_number = 1 THEN cd.conveyance_date END) AS conveyance_date_1,
+    MAX(CASE WHEN cd.row_number = 2 THEN cd.conveyance_date END) AS conveyance_date_2,
+    MAX(CASE WHEN cd.row_number = 3 THEN cd.conveyance_date END) AS conveyance_date_3,
+    MAX(CASE WHEN cd.row_number = 1 THEN cd.conveyance_price END) AS conveyance_price_1,
+    MAX(CASE WHEN cd.row_number = 2 THEN cd.conveyance_price END) AS conveyance_price_2,
+    MAX(CASE WHEN cd.row_number = 3 THEN cd.conveyance_price END) AS conveyance_price_3,
+    a.pid,
+    a.land_district_description,
+    a.city,
+    a.postal_zip,
+    fa.unit_number,
+    fa.street_number,
+    fa.street_name,
+    fa.street_type,
+    fa.primary_flag,
+    fa.descriptor_type,
+    pc.improvement_value,
+    pc.land_value,
+    o.id as ownership_group_id,
+    o.company_or_lastname,
+    o.first_name,
+    o.owner_id,
+    o.equity_type_desc,
+    o.postal_zip,
+    pptr_p.social_insurance_number
+FROM bcaa.assessment a
+LEFT JOIN conveyance_data cd ON a.id = cd.id
+LEFT JOIN bcaa.sale s ON a.id=s.assessment_id
+LEFT JOIN bcaa.followaddress fa ON a.id=fa.assessment_id
+LEFT JOIN bcaa.legal_description ld ON a.id=ld.assessment_id
+LEFT JOIN bcaa.property_class pc ON a.id=pc.assessment_id
+LEFT JOIN bcaa.ownership_group o ON a.id=o.assessment_id
+LEFT JOIN bcaa.owner o ON o.id=o.ownership_group_id
+LEFT JOIN bcaa.mailing_address ma ON ma.id=o.mailing_address_id
+LEFT JOIN pptr.purchaser pptr_p ON LOWER(pttr_p.purchaser_surname) = LOWER(o.company_or_lastname) and LOWER(pttr_p.purchaser_firstname) = LOWER(o.first_name)
+WHERE 
+    a.roll_year = 2022
+    AND a.actual_use_desc IN ('Single Family Dwelling', 'Strata-Lot Residence (Condominium)', 'Row Housing (Single Unit Ownership)')
+    AND a.city = 'RICHMOND'
+    AND o.first_name IS NOT NULL
+    AND pc.description = 'Residential'
 
+GROUP BY 
+    a.id, a.actual_use_desc, a.jurisdiction_code_desc, a.manual_class_desc, a.neighbourhood_desc,
+    a.ownership_year, a.roll_number, a.roll_year, a.vacant_flag, a.pid, a.land_district_description,
+    a.city, a.postal_zip, fa.unit_number, fa.street_number, fa.street_name, fa.street_type,
+    fa.primary_flag, fa.descriptor_type, pc.improvement_value, pc.land_value, 
+    o.id, o.company_or_lastname, o.first_name, o.owner_id, o.equity_type_desc, o.postal_zip,
+    pptr_p.social_insurance_number
