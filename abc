@@ -1,0 +1,45 @@
+User Guide for Wildcard Search in BCAA Dataset
+
+Wildcards are used to make searches more flexible by allowing partial matches or specifying patterns in your search criteria. In the BCAA dataset search interface, wildcards are available for several fields, such as company name, first name, last name, street name, city, and postal code. Below are the details on how to use them effectively:
+
+1. Wildcard Types and Examples:
+
+	•	Contains: This wildcard allows you to search for any entries that contain a specific substring.
+	•	Example: Searching for smith in the Company or Last Name field will return results that contain smith anywhere within the name (e.g., Smithson, Blacksmith).
+	•	Starts with: This allows you to find entries that begin with the specified substring.
+	•	Example: smith* will return names starting with smith (e.g., Smithfield, Smithson).
+	•	Exact match: When you want an exact match for the search term.
+	•	Example: "smith" will return only the results that exactly match smith without any additional characters (e.g., only Smith).
+	•	Ends with: This wildcard will return results that end with the specified substring.
+	•	Example: *smith will return entries where the name ends with smith (e.g., Goldsmith, Johnsmith).
+
+2. How to Use Wildcards in Specific Fields:
+
+	•	Company or Last Name: You can use wildcards to find businesses or individuals by part of their name. For example:
+	•	*smith would return any company or last name that ends with “smith”.
+	•	smith* would return any company or last name that starts with “smith”.
+	•	First Name: If you’re unsure of the full name or spelling, use a partial first name with a wildcard.
+	•	ann* would return any first name starting with “ann” (e.g., Ann, Annabelle).
+	•	Street Name: Use wildcards to match parts of street names if you don’t know the exact name.
+	•	*grove would return any street names ending in “grove” (e.g., Pinegrove, Maplegrove).
+	•	City: Wildcards help when searching for parts of city names.
+	•	Van* would return all city names starting with “Van” (e.g., Vancouver, Vanier).
+	•	Postal Code: If you have partial postal code information, you can use asterisks to find matching codes.
+	•	A9A9* would return all postal codes starting with A9A9.
+
+3. Best Practices:
+
+	•	Precision vs. Flexibility: Wildcards provide flexibility but can sometimes return too many irrelevant results if overused. If you’re looking for something specific, try to provide as much detail as possible and only use wildcards where necessary.
+	•	Testing Multiple Queries: If you are unsure about an entry, try starting with a broader wildcard search and then narrow it down by refining your query. For example, you can first search with *smith* and later refine it to smith* or "smith" for exact matches.
+	•	Combination of Fields: You can combine multiple wildcard searches across fields. For example, if you are looking for a property owner whose last name starts with smith and lives on a street that ends in grove, you can enter:
+	•	Last Name: smith*
+	•	Street Name: *grove
+
+4. Wildcard Limitations:
+
+	•	Wildcards may slow down search performance, especially if used across multiple fields or when searching a large dataset.
+	•	Not all fields may support every type of wildcard. Ensure that the field you’re searching supports the wildcard you’re using (as indicated by the wildcard legend).
+
+By following these tips, you can make more efficient use of wildcards in the BCAA search interface, allowing you to find data more effectively based on partial information or patterns.
+
+Let me know if you need further clarification or additional tips!
